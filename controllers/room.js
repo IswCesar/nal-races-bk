@@ -1,5 +1,6 @@
 const { response } = require("express");
 const Room = require("../models/room");
+var ObjectID = require("mongodb").ObjectID;
 
 const existRoomRecord = async(test = "") => {
 
@@ -48,8 +49,43 @@ const updateRoomRecord = async(data) => {
     }
 }
 
+const cleanRoom = async(req, res = response) => {
+
+   
+
+    try {
+        const data = req.params.test;
+        
+        var id = new ObjectID(req.params.test);
+        
+        
+        let obj = await Room.findOne({ test: id });
+        console.log(obj);
+        let contacts = []
+        let status = []
+    
+    
+        let updated = await Room.findOneAndUpdate({ _id: obj._id }, {
+            contacts,
+            status
+        }, { new: true });
+
+        res.json({
+            ok: true,
+            updated
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: "Contact admin",
+        });
+    }
+}
+
 module.exports = {
     existRoomRecord,
     saveRoomRecord,
-    updateRoomRecord
+    updateRoomRecord,
+    cleanRoom
 }

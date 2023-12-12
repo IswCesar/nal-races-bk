@@ -29,6 +29,7 @@ app.use("/api/test", require("./routes/test"));
 app.use("/api/question", require("./routes/question"));
 app.use("/api/teacher", require("./routes/teacher"));
 app.use("/api/reports", require("./routes/reports"))
+app.use("/api/rooms", require("./routes/rooms"))
 
 
 // Config
